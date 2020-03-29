@@ -52,6 +52,7 @@ public class VisionActivity extends AppCompatActivity {
 
     //Receipts Database
     DocumentReference receiptsRef = fStore.document("Receipts/receiptList");
+    CollectionReference receiptsbookRef = fStore.collection("Receipts");
     StringBuilder dataUpload = new StringBuilder();
 
     public static final String KEY_RECEIPTID = "receiptsID"; //actuallu not sure if its needed
@@ -91,7 +92,6 @@ public class VisionActivity extends AppCompatActivity {
         //Firebase Setup
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-        //receiptsRef = DocumentReference.getInstance();
 
         //Google Vision Setup
         cameraView = (SurfaceView) findViewById(R.id.surface_view);
@@ -182,22 +182,23 @@ public class VisionActivity extends AppCompatActivity {
 
         //todo need to figure out how to obtain unique id
 
-        //final String dataUploadFirebase = dataUpload.toString(); // data to be uploaded to firevbase - Value
+        final String dataUploadFirebase = dataUpload.toString(); // data to be uploaded to firevbase - Value
 
 
-        //Arbitrary Values
+        Receipts receipts = new Receipts("1", dataUploadFirebase);
 
-        Receipts receipts = new Receipts("1", "should be dataUploadFirebase");
-
-
-        //if(!TextUtils.isEmpty(receipts.getDescription())){ //check whether theres anything being uploaded
+        if(!TextUtils.isEmpty(receipts.getDescription())){ //check whether theres anything being uploaded
 
             uploadProgressBar.setVisibility(View.VISIBLE);
-            //CollectionReference receiptRef = fStore.collection("Receipts");
             //todo change the receiptID
 
 
+            //Multiple Documents
+            receiptsbookRef.add(receipts);
+            Toast.makeText(VisionActivity.this,"Receipt Details Saved", Toast.LENGTH_SHORT).show();
+
             //how to individually store documents
+            /*
             receiptsRef.set(receipts).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -210,9 +211,9 @@ public class VisionActivity extends AppCompatActivity {
                     Log.d(TAG, e.toString());
                 }
             });
+            */
 
 
-            //todo upload data to the portal
             //todo figure out a way how to count the number of receipts uploaded
             //todo figure out a way how to display the receipts
 
@@ -221,7 +222,7 @@ public class VisionActivity extends AppCompatActivity {
 
             uploadProgressBar.setVisibility(View.GONE);
 
-        //}
+        }
 
 
 

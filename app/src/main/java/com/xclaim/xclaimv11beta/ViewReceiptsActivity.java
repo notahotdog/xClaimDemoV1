@@ -13,16 +13,19 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class ViewReceiptsActivity extends AppCompatActivity {
     public static final String TAG = "TAG";
 
     private FirebaseFirestore fStore = FirebaseFirestore.getInstance();
     private DocumentReference receiptsRef = fStore.document("Receipts/receiptList");
-
+    private CollectionReference receiptsbookRef = fStore.collection("Receipts");
     private TextView textViewData;
 
     @Override
@@ -43,6 +46,33 @@ public class ViewReceiptsActivity extends AppCompatActivity {
 
 
     public void loadNote(){
+
+        receiptsbookRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                String data = "";
+                for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+
+                    Receipts receipts = documentSnapshot.toObject(Receipts.class);
+                    receipts.setDocumentID(documentSnapshot.getId());
+
+
+                    String documentId = receipts.getDocumentID();
+                    String receiptID = receipts.getReceiptID();
+                    String description =receipts.getDescription();
+
+                    data += "ID:" + documentId + "\nReceiptsID"
+                            + receiptID + "\nDescription:" +  description + "\n\n";
+
+                    Toast.makeText(ViewReceiptsActivity.this,"DATA" + data, Toast.LENGTH_LONG).show();
+                }
+                textViewData.setText(data);
+            }
+        });
+
+
+        /*
         receiptsRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -66,6 +96,7 @@ public class ViewReceiptsActivity extends AppCompatActivity {
                 Log.d(TAG, e.toString());
             }
         });
+        */
     }
 
     public void returnToMain(View view){
