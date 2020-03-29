@@ -48,20 +48,12 @@ public class ViewReceiptsActivity extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if(documentSnapshot.exists()){
 
-                    //String receiptID  = documentSnapshot.getString("receiptID");
-                    //String description = documentSnapshot.getString("description");
+                    Receipts receipts = documentSnapshot.toObject(Receipts.class);
 
-                    //Receipts receipts = documentSnapshot.toObject(Receipts.class);
+                    String receiptID = receipts.getReceiptID();
+                    String description = receipts.getDescription();
 
-                    //String receiptID = receipts.getReceiptID();
-                    //String description = receipts.getDescription();
-
-                    //Temp
-                    String receiptID = documentSnapshot.getString("receiptID");
-                    String description = documentSnapshot.getString("description");
-
-
-                    textViewData.setText("Receipts ID" + receiptID + "\n" + "Description: " + description);
+                    textViewData.setText("Receipts ID :" + receiptID + "\n" + "Description: " + description);
 
                 }else{
                     Toast.makeText(ViewReceiptsActivity.this, "Receipt does not exist", Toast.LENGTH_SHORT);

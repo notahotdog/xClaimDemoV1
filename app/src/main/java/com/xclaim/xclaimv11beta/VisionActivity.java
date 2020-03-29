@@ -182,16 +182,12 @@ public class VisionActivity extends AppCompatActivity {
 
         //todo need to figure out how to obtain unique id
 
-        //need to settle the key value for this
         //final String dataUploadFirebase = dataUpload.toString(); // data to be uploaded to firevbase - Value
 
 
         //Arbitrary Values
-        //Receipts receipts = new Receipts("1", "should be dataUploadFirebase");
 
-        Map<String, Object> receipts = new HashMap<>();
-        receipts.put("receiptID", "receipt 1 ");
-        receipts.put("description", "UOB ");
+        Receipts receipts = new Receipts("1", "should be dataUploadFirebase");
 
 
         //if(!TextUtils.isEmpty(receipts.getDescription())){ //check whether theres anything being uploaded
@@ -200,7 +196,6 @@ public class VisionActivity extends AppCompatActivity {
             //CollectionReference receiptRef = fStore.collection("Receipts");
             //todo change the receiptID
 
-            //Try a key Value pair
 
             //how to individually store documents
             receiptsRef.set(receipts).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -217,41 +212,10 @@ public class VisionActivity extends AppCompatActivity {
             });
 
 
-
-
-
             //todo upload data to the portal
             //todo figure out a way how to count the number of receipts uploaded
             //todo figure out a way how to display the receipts
 
-
-            /*
-
-            db.collection('...').get().then(snap => {
-                    size = snap.size // will return the collection size
-            });
-
-
-            userID = fAuth.getCurrentUser().getUid();
-
-            //Processing data to and from firestore
-            DocumentReference documentReference = fstore.collection("users").document(userID); //will auto create the collection if not present
-            Map<String, Object> user = new HashMap<>();
-            user.put("fName", fullname);
-            user.put("Email", email);
-            user.put("phone", phone);
-            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() { //checks if uploading to database is succesful
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d(TAG, "onSuccess: userProfile is created for " + userID);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "onFailure:" + e.toString());
-                }
-            });
-            */
 
 
 
