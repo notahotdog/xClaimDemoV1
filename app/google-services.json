@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "304567756266",
+    "firebase_url": "https://xclaimbeta.firebaseio.com",
+    "project_id": "xclaimbeta",
+    "storage_bucket": "xclaimbeta.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304567756266:android:576bfc97f6a0306c97fe93",
+        "android_client_info": {
+          "package_name": "com.xclaim.xclaimv11beta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "304567756266-8rmnou9se8l7fbv2tu8t3jdh9l5j82um.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLj61lAXN9YO2TmPC7J8bffgfmwrs8-zI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "304567756266-8rmnou9se8l7fbv2tu8t3jdh9l5j82um.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
