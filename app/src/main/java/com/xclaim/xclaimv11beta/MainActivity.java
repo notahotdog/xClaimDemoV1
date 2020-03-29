@@ -68,4 +68,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void viewReceipts(View view){
+        startActivity(new Intent(getApplicationContext(),ViewReceiptsActivity.class));
+        finish();
+    }
+
+
 }

@@ -8,27 +8,46 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VisionActivity extends AppCompatActivity {
 
-
+    public static final String TAG = "TAG";
     SurfaceView cameraView;
     TextView textView;
     CameraSource cameraSource;
     final int RequestCameraPermissionID = 1001;
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    ProgressBar uploadProgressBar;
+
+
+    StringBuilder dataUpload = new StringBuilder();
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -55,6 +74,10 @@ public class VisionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vision);
 
+
+        //Firebase Setup
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
         cameraView = (SurfaceView) findViewById(R.id.surface_view);
         textView = (TextView) findViewById(R.id.text_view);
@@ -119,6 +142,8 @@ public class VisionActivity extends AppCompatActivity {
                                     stringBuilder.append("\n");
                                 }
 
+                                dataUpload = stringBuilder;
+
                                 textView.setText(stringBuilder.toString());
                             }
                         });
@@ -132,4 +157,96 @@ public class VisionActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
         finish();
     }
+
+
+    public void uploadData(View view){
+       //todo upload data parsed to FireStore
+        //Todo Obtain Data
+
+        final String dataUploadFirebase = dataUpload.toString();
+
+        if(!TextUtils.isEmpty(dataUploadFirebase)){
+            //Todo Upload Data to FireStore
+            uploadProgressBar.setVisibility(View.VISIBLE);
+
+
+            CollectionReference receiptRef = fStore.collection("Receipts");
+
+
+
+
+            Receipts note = new Receipts("1", "Derek");
+
+            //todo set individual id
+
+            //how to individually store documents
+            fStore.collection("Receipts").document("My First Note").set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(VisionActivity.this,"Receipt Details Saved", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(VisionActivity.this,"Error !", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, e.toString());
+                }
+            });
+
+
+
+
+
+            //todo upload data to the portal
+            //todo figure out a way how to count the number of receipts uploaded
+            //todo figure out a way how to display the receipts
+
+
+
+
+
+
+
+            /*
+
+            db.collection('...').get().then(snap => {
+                    size = snap.size // will return the collection size
+            });
+
+
+            userID = fAuth.getCurrentUser().getUid();
+
+            //Processing data to and from firestore
+            DocumentReference documentReference = fstore.collection("users").document(userID); //will auto create the collection if not present
+            Map<String, Object> user = new HashMap<>();
+            user.put("fName", fullname);
+            user.put("Email", email);
+            user.put("phone", phone);
+            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() { //checks if uploading to database is succesful
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "onSuccess: userProfile is created for " + userID);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "onFailure:" + e.toString());
+                }
+            });
+            */
+
+
+
+            uploadProgressBar.setVisibility(View.GONE);
+
+        }
+
+
+
+
+
+
+    }
+
+
 }
