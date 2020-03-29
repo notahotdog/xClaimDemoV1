@@ -49,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         mFullName =findViewById(R.id.fullName);
         mEmail = findViewById(R.id.Email);
         mPassword = findViewById(R.id.password);
-        mPhone = findViewById(R.id.phone);
+        mPhone = findViewById(R.id.profilePhone);
         mRegisterBtn = findViewById(R.id.loginBtn);
         mLoginBtn = findViewById(R.id.createBtn);
 

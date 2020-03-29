@@ -64,7 +64,7 @@
         android:text="Register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone" />
+        app:layout_constraintTop_toBottomOf="@+id/profilePhone" />
 
     <EditText
         android:id="@+id/Email"
@@ -97,7 +97,7 @@
         app:layout_constraintTop_toBottomOf="@+id/Email" />
 
     <EditText
-        android:id="@+id/phone"
+        android:id="@+id/profilePhone"
         android:layout_width="339dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
