@@ -51,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
     }
 
 
@@ -61,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
     public void logout(View view){
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+        finish();
+    }
+
+
+    public void vision(View view){
+        startActivity(new Intent(getApplicationContext(),VisionActivity.class));
         finish();
     }
 
