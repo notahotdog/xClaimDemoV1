@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.vision.CameraSource;
@@ -123,10 +125,11 @@ public class VisionActivity extends AppCompatActivity {
                     }
                 }
             });
-
-
         }
+    }
 
-
+    public void returnToMain(View view){
+        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        finish();
     }
 }
