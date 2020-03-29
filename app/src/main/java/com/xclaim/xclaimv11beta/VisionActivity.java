@@ -31,6 +31,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
+import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,11 +43,23 @@ public class VisionActivity extends AppCompatActivity {
     CameraSource cameraSource;
     final int RequestCameraPermissionID = 1001;
     FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
+    //FirebaseFirestore fStore;
     ProgressBar uploadProgressBar;
 
+    private FirebaseFirestore fStore = FirebaseFirestore.getInstance();
 
+
+
+    //Receipts Database
+    DocumentReference receiptsRef = fStore.document("Receipts/receiptList");
     StringBuilder dataUpload = new StringBuilder();
+
+    public static final String KEY_RECEIPTID = "receiptsID"; //actuallu not sure if its needed
+    public static final String KEY_DESCRIPTION = "description";
+
+
+
+
 
 
     @Override
@@ -78,9 +91,15 @@ public class VisionActivity extends AppCompatActivity {
         //Firebase Setup
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+        //receiptsRef = DocumentReference.getInstance();
 
+        //Google Vision Setup
         cameraView = (SurfaceView) findViewById(R.id.surface_view);
         textView = (TextView) findViewById(R.id.text_view);
+
+
+        uploadProgressBar= findViewById(R.id.uploadProgressBar);
+
 
 
         TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
@@ -157,30 +176,34 @@ public class VisionActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
         finish();
     }
-
-
     public void uploadData(View view){
        //todo upload data parsed to FireStore
         //Todo Obtain Data
 
-        final String dataUploadFirebase = dataUpload.toString();
+        //todo need to figure out how to obtain unique id
 
-        if(!TextUtils.isEmpty(dataUploadFirebase)){
-            //Todo Upload Data to FireStore
+        //need to settle the key value for this
+        //final String dataUploadFirebase = dataUpload.toString(); // data to be uploaded to firevbase - Value
+
+
+        //Arbitrary Values
+        //Receipts receipts = new Receipts("1", "should be dataUploadFirebase");
+
+        Map<String, Object> receipts = new HashMap<>();
+        receipts.put("receiptID", "receipt 1 ");
+        receipts.put("description", "UOB ");
+
+
+        //if(!TextUtils.isEmpty(receipts.getDescription())){ //check whether theres anything being uploaded
+
             uploadProgressBar.setVisibility(View.VISIBLE);
+            //CollectionReference receiptRef = fStore.collection("Receipts");
+            //todo change the receiptID
 
-
-            CollectionReference receiptRef = fStore.collection("Receipts");
-
-
-
-
-            Receipts note = new Receipts("1", "Derek");
-
-            //todo set individual id
+            //Try a key Value pair
 
             //how to individually store documents
-            fStore.collection("Receipts").document("My First Note").set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
+            receiptsRef.set(receipts).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Toast.makeText(VisionActivity.this,"Receipt Details Saved", Toast.LENGTH_SHORT).show();
@@ -200,11 +223,6 @@ public class VisionActivity extends AppCompatActivity {
             //todo upload data to the portal
             //todo figure out a way how to count the number of receipts uploaded
             //todo figure out a way how to display the receipts
-
-
-
-
-
 
 
             /*
@@ -239,7 +257,7 @@ public class VisionActivity extends AppCompatActivity {
 
             uploadProgressBar.setVisibility(View.GONE);
 
-        }
+        //}
 
 
 
